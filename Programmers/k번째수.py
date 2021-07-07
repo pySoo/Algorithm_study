@@ -1,5 +1,6 @@
 # 배열 활용 기본 문제
 # array의 i번째 숫자부터 j번째 숫자까지 정렬했을 때, k번째 있는 수를 구함
+# https://programmers.co.kr/learn/courses/30/lessons/42748
 
 def solution(array, commands):
     answer = []
