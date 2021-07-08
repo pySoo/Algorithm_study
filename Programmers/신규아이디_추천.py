@@ -22,13 +22,13 @@ def solution(new_id):
         answer=answer[:-1]
         
     #5단계
-    if answer == "":
-        answer = "a"
+    if answer == '':
+        answer = 'a'
     
     #6단계
     if len(answer) >=16 :
         answer=answer[:15]
-        if answer[-1] == ".":
+        if answer[-1] == '.':
             answer = answer[:-1]
     
     #7단계
