@@ -1,4 +1,4 @@
-# 2021 카카오 블라인드 코딩테스트
+# 2021 카카오 블라인드
 # 단계별 문자열 활용, 라이브러리 활용 문제
 # https://programmers.co.kr/learn/courses/30/lessons/72410
 def solution(new_id):

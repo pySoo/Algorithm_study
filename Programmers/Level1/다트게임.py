@@ -1,3 +1,4 @@
+# 2018 카카오 블라인드
 # 정해진 규칙에 따라서 다트 게임 점수를 계산하는 문제
 # https://programmers.co.kr/learn/courses/30/lessons/17682
 # 위 문제를 풀면서 배운 점은 dictionary 활용 방법과 문자열 예외처리 방법입니다.
