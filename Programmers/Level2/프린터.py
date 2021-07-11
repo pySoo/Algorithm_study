@@ -7,8 +7,8 @@ def solution(priorities, location):
     q = deque([(v,i) for i,v in enumerate(priorities)])
     while len(q):
         item = q.popleft()
-        # 맨 앞 요소보다 더 큰 요소가 뒤에 있는 경우 다시 뒤에 append 한다.
-        # any(item[0] < que[0] for que in q) 으로도 풀 수 있다. any라는 함수는 그 중에 어느 하나라도 조건을 만족하는 것을 판별한다.
+        # 맨 앞 요소보다 더 큰 요소가 뒤에 있는 경우 다시 뒤에 append 합니다.
+        # any(item[0] < que[0] for que in q) 으로도 풀 수 있다는걸 알게됐습니다. any라는 함수는 그 중에 어느 하나라도 조건을 만족하는 것을 판별합니다.
         if q and max(q)[0] > item[0]:
             q.append(item)
         else:
