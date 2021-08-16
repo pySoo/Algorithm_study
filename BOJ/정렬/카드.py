@@ -27,3 +27,4 @@ for _ in range(n):
 # dic.items: (카드 값, 카드 개수)
 # 내림차순 정렬 후 카드 수가 같으면 카드 값(x[0])을 기준으로 오름차순 정렬
 dic = sorted(dic.items(), key=lambda x: (-x[1], x[0]))
+print(dic[0][0])
