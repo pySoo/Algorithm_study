@@ -26,23 +26,37 @@ orders	course	result
 ["ABCDE", "AB", "CD", "ADE", "XYZ", "XYZ", "ACD"]	[2,3,5]	["ACD", "AD", "ADE", "CD", "XYZ"]
 ["XYZ", "XWY", "WXA"]	[2,3,4]	["WX", "XY"]
 """
+"""
+알고리즘
+1) course 숫자만큼 반복(조합 생성 위해)
+2) order 개수만큼 반복
+3) order에 대해 course 값만큼 조합 생성
+4) XY, YX 경우에 대비해 정렬
+5) 조합 주문에 대해 counter 개수를 셈
+6) 1명 보다 많으며 최대 개수와 같을 때 정답에 추가
+"""
+
+
+
+
 from itertools import combinations
 from collections import Counter
-
-
 def solution(orders, course):
     answer = []
-    for num in course:
+    # 1
+    for n in course:
         candidates = []
+        # 2
         for order in orders:
-            # 메뉴 개수에 따라 가능한 조합 생성
-            for menu_combi in combinations(order, num):
+            # 3: 메뉴 개수에 따라 가능한 조합 생성
+            for menu_combi in combinations(order, n):
+                # 4
                 menu = ''.join(sorted(menu_combi))
                 candidates.append(menu)
-        # 주문된 수에 따라 정렬 (menu, cnt)
-        sorted_candidates = Counter(candidates).most_common()
-        for menu, cnt in sorted_candidates:
-            # 가장 많이 주문된 수일 때 추가
-            if cnt > 1 and cnt == sorted_candidates[0][1]:
+        # 5: 주문된 수에 따라 정렬 (menu, cnt)
+        counter = Counter(candidates).most_common()
+        for menu, cnt in counter:
+            # 6: 가장 많이 주문된 수일 때 추가
+            if cnt > 1 and cnt == counter[0][1]:
                 answer.append(menu)
     return sorted(answer)
