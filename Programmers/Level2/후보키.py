@@ -23,34 +23,44 @@ relation의 모든 튜플은 유일하게 식별 가능하다.(즉, 중복되는
 relation	result
 [["100","ryan","music","2"],["200","apeach","math","2"],["300","tube","computer","3"],["400","con","computer","4"],["500","muzi","music","3"],["600","apeach","music","2"]]	2
 """
+
+"""
+알고리즘
+1. 1부터 column 수만큼 column에 관한 조합 생성 (0,) (0,1) 등
+2. 유일성 검사: 튜플에 대해 중복을 제거해도 모든 행의 데이터가 존재할 때 만족
+3. 최소성 검사: 유일성을 만족하는 현 요소와 다음 요소가 겹치는 것이 있을 때 만족하지 않음
+"""
+
+
+
+
 from itertools import combinations
-
-
-def find(candidate):
-    keys = []
-    idx = [i for i in range(len(candidate))]
-    for k in range(2, len(candidate)+1):
-        # 인덱스를 조합
-        for combi in combinations(idx, k):
-            res = list(zip(*(candidate[i] for i in combi)))
-            if len(set(res)) != len(res):
-                continue
-            for key in keys:
-                if set(key).issubset(combi):
-                    break
-            else:
-                keys.append(set(combi))
-    return len(keys)
-
-
 def solution(relation):
     answer = 0
-    reverse = list(zip(*relation))
-    candidate = []
-    for col in reverse:
-        if len(set(col)) == len(col):
-            answer += 1
-        else:
-            candidate.append(col)
-    answer += find(candidate)
-    return answer
+    row = len(relation)
+    col = len(relation[0])
+
+    candidates = []
+    for i in range(1, col+1):
+        candidates.extend(combinations(range(col), i))
+
+    # 유일성 검사
+    unique = []
+    for col in candidates:
+        tmp = []
+        for item in relation:
+            tmp.append(tuple(item[i] for i in col))
+            # 중복을 제거해도 모든 행의 데이터가 있을 때 유일성 만족
+            if len(set(tmp)) == row:
+                # 유일성 만족하는 컬럼 저장
+                unique.append(col)
+
+    # 최소성 검사
+    answer = set(unique)
+    for i in range(len(unique)):
+        for j in range(i+1, len(unique)):
+            # 현 요소 길이와 다음 요소들과의 교집합 길이가 같다면 겹치는 것
+            if len(unique[i]) == len(set(unique[i]) & set(unique[j])):
+                # 집합에서 해당 요소를 제거한다.
+                answer.discard(unique[j])
+    return len(answer)
