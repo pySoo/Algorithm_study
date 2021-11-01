@@ -9,6 +9,8 @@ word의 길이는 1 이상 5 이하입니다.
 word는 알파벳 대문자 'A', 'E', 'I', 'O', 'U'로만 이루어져 있습니다.
 """
 
+# 규칙을 이용한 풀이
+
 
 def solution(word):
     answer = 0
@@ -18,3 +20,17 @@ def solution(word):
         answer += word_dic[w]*arr[idx] + 1
 
     return answer
+
+
+# 집합과 정렬을 이용한 코딩 풀이
+def solution(word):
+    alpha = list('AEIOU')
+    alpha_set = set(alpha)
+    temp = []
+    for _ in range(4):
+        for s in alpha_set:
+            for a in alpha:
+                temp.append(s+a)
+        alpha_set.update(temp)
+        temp = []
+    return sorted(list(alpha_set)).index(word) + 1
