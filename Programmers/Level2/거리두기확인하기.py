@@ -39,29 +39,26 @@ from collections import deque
 
 
 def bfs(place, i, j):
-    # x, y 좌표와 거리
+    dic = {0: [1, 0], 1: [0, 1], 2: [-1, 0], 3: [0, -1]}
     q = deque([[i, j, 0]])
     visited = [[False] * 5 for _ in range(5)]
-    dic = {0: [0, -1], 1: [-1, 0], 2: [0, 1], 3: [1, 0]}
 
     while q:
-        x, y, distance = q.popleft()
+        x, y, d = q.popleft()
         visited[x][y] = True
-
         for i in range(4):
-
             nx = x + dic[i][0]
             ny = y + dic[i][1]
-            nd = distance + 1
+            nd = d + 1
 
             if 0 <= nx < 5 and 0 <= ny < 5 and not visited[nx][ny]:
                 visited[nx][ny] = True
-                if place[nx][ny] == 'P':
-                    if nd <= 2:
-                        return False
-                elif place[nx][ny] == 'O':
-                    if nd == 1:
-                        q.append([nx, ny, nd])
+                # 거리가 2이하인 사람이 있다면 만족하지 않음
+                if place[nx][ny] == "P" and nd <= 2:
+                    return False
+                # 파티션이 있으면 이동할 수 없으므로 아닐 경우에 이동
+                elif place[nx][ny] != 'X':
+                    q.append([nx, ny, nd])
     return True
 
 
@@ -71,10 +68,9 @@ def solution(places):
         is_apart = 1
         for i in range(5):
             for j in range(5):
-                if place[i][j] == 'P':
+                if place[i][j] == "P":
                     result = bfs(place, i, j)
                     if not result:
                         is_apart = 0
         answer.append(is_apart)
-
     return answer
