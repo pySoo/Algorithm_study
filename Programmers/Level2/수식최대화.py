@@ -22,6 +22,56 @@ expression	result
 "50*6-3*2"	300
 """
 from itertools import permutations
+# 분할정복 문제: 재귀로 풀자
+"""
+알고리즘
+1. 연산자에 대한 모든 우선순위 정의
+2. 우선순위에 따라 재귀 함수
+3. 분할-정복: exp 쪼개고 eval 함수를 통한 문자열 수식 계산
+4. 가장 큰 값으로 정답 갱신
+"""
+
+
+def str_eval(splitted, op, idx):
+    temp = []
+    for s in splitted:
+        temp.append(calc(op, idx+1, s))
+
+    # "*".join([200,300]) = 200 * 300 = 60000
+    return str(eval(op[idx].join(temp)))
+
+
+def calc(op, idx, exp):
+    if exp.isdigit():
+        return str(exp)
+    else:
+        # 3
+        if op[idx] == "*":
+            splitted = exp.split("*")
+
+        elif op[idx] == "+":
+            splitted = exp.split("+")
+
+        elif op[idx] == "-":
+            splitted = exp.split("-")
+
+        return str_eval(splitted, op, idx)
+
+
+def solution(expression):
+    answer = 0
+    operation = ['+', '-', '*']
+    # 1
+    operation = list(permutations(operation, 3))
+
+    for op in operation:
+        # 2
+        result = abs(int(calc(op, 0, expression)))
+        # 4
+        if result > answer:
+            answer = result
+
+    return answer
 
 
 def operation(num1, num2, op):
