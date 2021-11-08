@@ -21,35 +21,47 @@ gems 배열의 각 원소는 길이가 1 이상 10 이하인 알파벳 대문자
 # 배열 크기가 최대 100000이므로 O(n^2) 이상인 탐색 알고리즘으로는 풀이가 불가능하다.
 # O(n)의 투 포인터 알고리즘을 사용해야한다.
 
+"""
+알고리즘
+1. 배열의 처음부터 start와 end가 배열 크기 내에서 탐색
+2. 딕셔너리가 집합의 크기와 같지 않다면(모든 보석 수집 X)
+2-1 end 포인터 이동, 범위 검사, 딕셔너리에 없다면 추가
+3. 딕셔너리가 집합의 크기와 같다면(모든 보석 수집)
+3-1 정답 배열의 범위보다 작다면 갱신
+3-2 개수가 1개라면 배열에서 삭제, 아니라면 1 감소
+3-3 start 포인터 이동
+4. 정답은 인덱스가 1부터 시작하므로 1을 더한 값을 리턴
+"""
+
 
 def solution(gems):
-    answer = [1, len(gems)]
+    answer = [0, len(gems)-1]
+    size = len(set(gems))
     start, end = 0, 0
-    gems_len = len(set(gems))
-    # 구간 내의 보석 개수
-    shortest = len(gems)
-    # 보석 종류별 개수를 저장하는 딕셔너리
-    my_gems = {}
-
-    while end < len(gems):
-        if gems[end] not in my_gems:
-            my_gems[gems[end]] = 1
+    dic = {gems[0]: 1}
+    # 1
+    while start < len(gems) and end < len(gems):
+        # 2
+        if len(dic) != size:
+            # 2-1
+            end += 1
+            if end == len(gems):
+                break
+            if gems[end] not in dic:
+                dic[gems[end]] = 1
+            else:
+                dic[gems[end]] += 1
+        # 3
         else:
-            my_gems[gems[end]] += 1
-        end += 1
-        # 포함해야 하는 보석을 모두 가지고 있을 때
-        if len(my_gems) == gems_len:
-            while start < end:
-                # 하나 이상 존재하면 뒤에도 같은 보석이 존재하므로 start 포인터를 한 칸 이동
-                if my_gems[gems[start]] > 1:
-                    my_gems[gems[start]] -= 1
-                    start += 1
-                # 현 구간이 더 짧으면 answer 갱신
-                elif end - start < shortest:
-                    shortest = end - start
-                    answer = [start+1, end]
-                    break
-                else:
-                    break
-
-    return answer
+            # 3-1
+            if end - start < answer[1] - answer[0]:
+                answer = [start, end]
+            # 3-2
+            if dic[gems[start]] == 1:
+                del dic[gems[start]]
+            else:
+                dic[gems[start]] -= 1
+            # 3-3
+            start += 1
+    # 4
+    return [answer[0]+1, answer[1]+1]
