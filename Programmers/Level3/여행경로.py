@@ -17,23 +17,36 @@ tickets	/ return
 [["ICN", "JFK"], ["HND", "IAD"], ["JFK", "HND"]]	/ ["ICN", "JFK", "HND", "IAD"]
 [["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL","SFO"]]   /	 ["ICN", "ATL", "ICN", "SFO", "ATL", "SFO"]
 """
+"""
+알고리즘
+1. {시작점: [도착점], ...} 형태의 도착점들을 정렬한 인접 리스트 생성
+2. DFS 알고리즘 사용 모든 노드 순회
+2-1. 현재 노드가 그래프에 있으며 티켓을 모두 사용한 경우가 아닐경우
+가장 앞 데이터를 stack에 저장
+2-2. 2-1이 아닌경우 티켓을 모두 사용했으므로 route에 저장
+3. route 역순 출력
+"""
+
+
+
+
 from collections import defaultdict
-
-
 def solution(tickets):
     answer = []
     path = defaultdict(list)
-
+    # 1
     for a, b in sorted(tickets):
         path[a].append(b)
 
     stack, route = ['ICN'], []
-
+    # 2
     while stack:
         now = stack[-1]
-        if path[now] != []:
+        # 2-1
+        if now in path and len(path[now] != 0):
             stack.append(path[now].pop(0))
+        # 2-2
         else:
             route.append(stack.pop())
-
+    # 3
     return route[::-1]
