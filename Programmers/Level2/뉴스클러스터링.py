@@ -18,10 +18,20 @@ handshake	shake hands	65536
 aa1+aa2	AAAA12	43690
 E=M*C^2	e=m*c^2	65536
 """
+"""
+알고리즘
+1. 문자열이 문자로 이루어져있는지 검사, 소문자 변환
+2. 합집합과 교집합 구하기
+3. 자카드 유사드를 구하고 소수점 아래를 버린다.
+"""
+
+# 1
+
+
+
+
 from itertools import permutations
 import math
-
-
 def str_to_list(s):
     l = []
     for i in range(len(s) - 1):
@@ -34,9 +44,13 @@ def solution(str1, str2):
     answer = 0
     list_1 = str_to_list(str1)
     list_2 = str_to_list(str2)
+
+    # 2
     # 합집합, 교집합 구하기
     inter = [list_2.remove(x) for x in list_1 if x in list_2]
     union = list_1 + list_2
+
+    # 3
     # 자카드 유사도 구하기
     if len(union) == 0:
         answer = 1 * 65536
