@@ -15,6 +15,14 @@
 출력
 토마토가 모두 익을 때까지의 최소 날짜를 출력해야 한다. 만약, 저장될 때부터 모든 토마토가 익어있는 상태이면 0을 출력해야 하고, 토마토가 모두 익지는 못하는 상황이면 -1을 출력해야 한다.
 """
+"""
+알고리즘
+1. 값이 1이면 큐에 저장(익은 토마토)
+2. 1의 큐가 비워질 때까지 bfs 반복
+3. 토마토 좌표를 꺼내고 인접 사분면의 익지 않은 토마토를 큐에 넣는다.
+4. 맵의 원소는 토마토가 익는데 걸린 일수로 설정한다. 큐에 넣은 토마토 좌표에 1을 더한다.
+5. 모든 맵을 탐색하며 0이 있다면 다 익히지 못했으므로 -1을 출력하고, 다 익혔다면 최댓값이 정답이므로 최댓값을 출력한다.
+"""
 from collections import deque
 m, n = map(int, input().split())
 maps = [list(map(int, input().split())) for _ in range(n)]
@@ -22,37 +30,38 @@ visited = [[0] * m for _ in range(n)]
 ripe = deque()
 dx, dy = [-1, 1, 0, 0], [0, 0, 1, -1]
 
+# 2
+
 
 def bfs():
     while ripe:
         x, y = ripe.popleft()
+        # 3
         for i in range(4):
             nx, ny = x + dx[i], y + dy[i]
             if 0 <= nx < n and 0 <= ny < m:
                 if maps[nx][ny] == 0:
+                    # 4
                     maps[nx][ny] = maps[x][y] + 1
                     ripe.append((nx, ny))
 
-    result = -1
+    # 5
+    result = 0
     for row in maps:
         # 안 익은 토마토가 있기 때문에 -1을 출력한다.
         if 0 in row:
             return -1
         # 행마다 방문 횟수(익는데 걸린 시간)가 가장 큰 값을 result에 저장한다.
-        max_day = max(row)
-        result = max(result, max_day)
+        result = max(result, max(row))
 
-    # 주어질 때부터 모두 익어있는 상태라면 0을 출력
-    if result == 1:
-        return 0
-    else:
-        # 아니라면 result 출력, 이미 익어있던 것들을 1일로 카운트 했기 때문에 -1을 더한다.
-        return (result-1)
+    # 이미 익어있던 것들을 1일로 카운트 했기 때문에 -1을 더한다.
+    return (result-1)
 
 
 for i in range(n):
     for j in range(m):
         if maps[i][j]:
+            # 1
             ripe.append((i, j))
 
 print(bfs())
