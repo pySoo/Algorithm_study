@@ -13,18 +13,29 @@ vertex 배열 각 행 [a, b]는 a번 노드와 b번 노드 사이에 간선이 �
 n	vertex	return
 6	[[3, 6], [4, 3], [3, 2], [1, 3], [1, 2], [2, 4], [5, 2]]	3
 """
+"""
+알고리즘
+1. 그래프 배열에 graph[a] = [b,...]의 형태로 연결된 노드 추가
+2. [정점, 거리]가 저장된 큐의 원소가 없어질 때까지 반복
+3. 방문하지 않았다면 방문 배열에 거리를 저장
+4. 해당 정점에 연결된 노드들을 큐에 삽입
+"""
+
+
+
+
 from collections import deque
-
-
 def bfs(v, visited, graph):
     cnt = 0
     q = deque([[v, cnt]])
-
+    # 2
     while q:
         x, cnt = q.popleft()
+        # 3
         if visited[x] == -1:
             visited[x] = cnt
             cnt += 1
+            # 4
             for e in graph[x]:
                 q.append([e, cnt])
 
@@ -33,6 +44,7 @@ def solution(n, edge):
     answer = 0
     graph = [[] for _ in range(n+1)]
     visited = [-1] * (n+1)
+    # 1
     for e in edge:
         graph[e[0]].append(e[1])
         graph[e[1]].append(e[0])
