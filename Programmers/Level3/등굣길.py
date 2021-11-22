@@ -16,19 +16,32 @@
 m	n	puddles	return
 4	3	[[2, 2]]	4
 """
+"""
+알고리즘
+1. 이동거리를 담는 dp 행렬 생성
+2. 첫 번째 칸의 거리를 1로 설정
+3. i, j번째 인덱스를 범위 내에서 탐색
+3-1. 웅덩이인 경우 재탐색
+3-2. [이전 열, 현재 행]의 거리 + [현재 열, 이전 행]의 거리를 더한 것이 [현재 열, 현재 행]의 거리 값
+"""
 
 
 def solution(m, n, puddles):
     answer = 0
+    # 1
     dp = [[0 for _ in range(m+1)] for _ in range(n+1)]
+    # 2
     dp[1][1] = 1
 
+    # 3
     for i in range(1, n+1):
         for j in range(1, m+1):
             if i == 1 and j == 1:
                 continue
+            # 3-1
             elif [j, i] in puddles:
                 dp[i][j] = 0
+            # 3-2
             else:
                 dp[i][j] = dp[i-1][j] + dp[i][j-1]
 
