@@ -26,13 +26,16 @@ costs의 길이는 ((n-1) * n) / 2이하입니다.
 
 def solution(n, costs):
     answer = 0
+    # 1
     costs.sort(key=lambda x: x[2])
     routes = set([costs[0][0]])
     while len(routes) != n:
+        # 2
         for i, cost in enumerate(costs):
-            # 둘 다 존재한다면 사이클이 존재하기 때문에 재탐색
+            # 2-2 둘 다 집합 안에 있다면 사이클이 존재하기 때문에 재탐색
             if cost[0] in routes and cost[1] in routes:
                 continue
+            # 2-1 최소 신장트리에 간선을 포함시킴
             if cost[0] in routes or cost[1] in routes:
                 routes.update([cost[0], cost[1]])
                 answer += cost[2]
